@@ -1,15 +1,3 @@
-function saveMockRecord(type, record) {
-  const storageKey = "mjs-rock-shop-contact-records";
-  try {
-    const existingRecords = JSON.parse(sessionStorage.getItem(storageKey) || "[]");
-    existingRecords.push({ type, ...record, submittedAt: new Date().toISOString() });
-    sessionStorage.setItem(storageKey, JSON.stringify(existingRecords));
-  } catch (error) {
-    // The prototype can still demonstrate a successful submission if storage
-    // is unavailable, such as when a browser blocks session storage.
-  }
-}
-
 function setStatus(element, message, isError = false) {
   element.textContent = message;
   element.classList.toggle("error", isError);
@@ -49,12 +37,17 @@ function validateForm(form) {
   return invalidFields.length === 0;
 }
 
-function setupMockForm(formId, statusId, recordType, successMessage) {
+function clearFormFields(form) {
+  form.querySelectorAll("input, textarea").forEach((field) => { field.value = ""; });
+  clearErrors(form);
+}
+
+function setupContactForm(formId, statusId, recordType, successMessage) {
   const form = document.querySelector(`#${formId}`);
   const status = document.querySelector(`#${statusId}`);
   if (!form || !status) return;
 
-  form.addEventListener("submit", (event) => {
+  form.addEventListener("submit", async (event) => {
     event.preventDefault();
     status.hidden = true;
     if (!validateForm(form)) {
@@ -62,12 +55,20 @@ function setupMockForm(formId, statusId, recordType, successMessage) {
       return;
     }
     const values = Object.fromEntries(new FormData(form).entries());
-    saveMockRecord(recordType, values);
-    form.querySelectorAll("input, textarea").forEach((field) => {
-      field.value = "";
-    });
-    clearErrors(form);
-    setStatus(status, successMessage);
+    form.setAttribute("aria-busy", "true");
+    try {
+      await apiFetch("/api/contact-messages", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ type: recordType, ...values }),
+      });
+      clearFormFields(form);
+      setStatus(status, successMessage);
+    } catch (error) {
+      setStatus(status, error.message || "The message could not be saved. Try again.", true);
+    } finally {
+      form.removeAttribute("aria-busy");
+    }
   });
 
   form.addEventListener("reset", () => {
@@ -78,5 +79,6 @@ function setupMockForm(formId, statusId, recordType, successMessage) {
   });
 }
 
-setupMockForm("contact-form", "message-status", "message", "Your mock message was accepted. MJ would be able to review it in a connected version of the site.");
-setupMockForm("interest-form", "interest-status", "interest", "Your mock contact information and interest were recorded for this browser session.");
+setupContactForm("contact-form", "message-status", "message", "Your mock message was accepted and saved in the local classroom database.");
+setupContactForm("interest-form", "interest-status", "interest", "Your mock contact information and interest were saved in the local classroom database.");
+

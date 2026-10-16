@@ -60,6 +60,9 @@ def reset(path: Path | str | None = None) -> None:
     with closing(connect(path)) as connection:
         connection.executescript(
             """
+            DROP TABLE IF EXISTS order_items;
+            DROP TABLE IF EXISTS orders;
+            DROP TABLE IF EXISTS contact_messages;
             DROP TABLE IF EXISTS product_shipping_options;
             DROP TABLE IF EXISTS products;
             """

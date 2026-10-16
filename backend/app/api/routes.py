@@ -7,8 +7,12 @@ from pydantic import BaseModel
 
 from app.database import database_is_healthy
 from app.models.catalog import CatalogProduct
+from app.models.contact import ContactMessageRequest, ContactMessageResponse
+from app.models.orders import OrderConfirmation, OrderCreateRequest, OrderQuoteRequest, OrderQuoteResponse
 from app.repositories.products import product_repository
 from app.services.catalog import CatalogService
+from app.services.contact import ContactService, ContactServiceError
+from app.services.orders import OrderService, OrderServiceError
 
 
 router = APIRouter(prefix="/api")
@@ -74,4 +78,78 @@ def product(product_id: str) -> CatalogProduct:
             "fields": [{"field": "product_id", "message": "Use an existing product ID."}],
         },
     )
+
+
+def _order_error(error: OrderServiceError) -> HTTPException:
+    fields = []
+    if error.field:
+        fields.append({"field": error.field, "message": error.message})
+    return HTTPException(
+        status_code=error.status_code,
+        detail={"code": error.code, "message": error.message, "fields": fields},
+    )
+
+
+@router.post("/orders/quote", response_model=OrderQuoteResponse)
+def order_quote(request: OrderQuoteRequest) -> OrderQuoteResponse:
+    """Calculate an order quote and return eligible shipping options."""
+    with product_repository() as repository:
+        try:
+            return OrderService(repository.connection).quote(request.product_id, request.quantity)
+        except OrderServiceError as error:
+            raise _order_error(error) from error
+
+
+@router.post("/orders", response_model=OrderConfirmation, status_code=201)
+def create_order(request: OrderCreateRequest) -> OrderConfirmation:
+    """Create a completed mock order after payment and inventory checks."""
+    with product_repository() as repository:
+        try:
+            return OrderService(repository.connection).create_order(
+                product_id=request.product_id,
+                quantity=request.quantity,
+                customer=request.customer,
+                shipping_carrier=request.shipping_carrier,
+                shipping_service=request.shipping_service,
+                card_number=request.card_number,
+            )
+        except OrderServiceError as error:
+            raise _order_error(error) from error
+
+
+@router.get("/orders/{order_id}", response_model=OrderConfirmation)
+def get_order(order_id: int) -> OrderConfirmation:
+    """Return a safe order confirmation without customer or payment details."""
+    with product_repository() as repository:
+        order = OrderService(repository.connection).get_order(order_id)
+    if order:
+        return order
+    raise HTTPException(
+        status_code=404,
+        detail={
+            "code": "order_not_found",
+            "message": "The requested order was not found.",
+            "fields": [{"field": "order_id", "message": "Use an existing order ID."}],
+        },
+    )
+
+
+def _contact_error(error: ContactServiceError) -> HTTPException:
+    fields = []
+    if error.field:
+        fields.append({"field": error.field, "message": error.message})
+    return HTTPException(
+        status_code=422,
+        detail={"code": error.code, "message": error.message, "fields": fields},
+    )
+
+
+@router.post("/contact-messages", response_model=ContactMessageResponse, status_code=201)
+def create_contact_message(request: ContactMessageRequest) -> ContactMessageResponse:
+    """Validate and store a fictional contact or interest record."""
+    with product_repository() as repository:
+        try:
+            return ContactService(repository.connection).submit(request)
+        except ContactServiceError as error:
+            raise _contact_error(error) from error
 

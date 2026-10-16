@@ -84,6 +84,28 @@ GET /api/products/{product_id}
 
 The collection endpoint supports `search`, `color`, `geologicalType`, `mineralStatus`, `condition`, `sort`, and `availableOnly` query parameters.
 
+## Order endpoints
+
+Checkout uses these API endpoints:
+
+```text
+POST /api/orders/quote
+POST /api/orders
+GET /api/orders/{order_id}
+```
+
+Orders are stored with item snapshots and safe mock payment references. Complete card numbers are used only for the request and are never stored.
+
+## Contact endpoint
+
+The contact and interest forms use:
+
+```text
+POST /api/contact-messages
+```
+
+Messages are validated and stored in SQLite. The local message adapter records the submission without sending email.
+
 No automated tests are included in this template. Students add their own checks as part of the course exercises.
 
 ## API error format

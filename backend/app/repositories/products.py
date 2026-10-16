@@ -32,6 +32,12 @@ class ProductRepository:
     def count(self) -> int:
         return self.connection.execute("SELECT COUNT(*) FROM products").fetchone()[0]
 
+    def inventory_quantity(self, product_id: str) -> int:
+        row = self.connection.execute(
+            "SELECT inventory_quantity FROM products WHERE id = ?", (product_id,)
+        ).fetchone()
+        return int(row["inventory_quantity"]) if row else 0
+
     def _to_product(self, row: sqlite3.Row) -> CatalogProduct:
         shipping_rows = self.connection.execute(
             """

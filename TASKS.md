@@ -42,7 +42,7 @@ Students will add the automated checks and quality activities themselves as cour
 - [x] Create temporary seed data that preserves the current product catalog and product variations.
 - [x] Update `app/js/catalog.js` to load catalog data from the API.
 - [x] Update product-detail behavior to load data from the API.
-- [x] Remove the catalog and product pages' dependence on `app/js/data.js`; checkout remains on the prototype data source until its migration milestone.
+- [x] Remove the API-backed catalog, product, and checkout pages' dependence on `app/js/data.js`.
 - [x] Implement loading, empty, unavailable, and API-error states in the browser.
 - [x] Preserve product warnings and display details in API-backed product cards and details.
 
@@ -79,40 +79,40 @@ Students will add the automated checks and quality activities themselves as cour
 
 **Exit criteria:** Core business rules are isolated from HTTP and browser code, and deterministic local adapters are available.
 
-## Milestone 6: Implement quotes and orders
+## Milestone 6: Implement quotes and orders — complete
 
 **Goal:** Provide an API-backed checkout flow with safe persistence and deterministic outcomes.
 
-- [ ] Create tables for `orders` and `order_items`.
-- [ ] Implement `OrderRepository`.
-- [ ] Implement `POST /api/orders/quote`.
-- [ ] Validate product, quantity, inventory, price, and eligible shipping options in the backend.
-- [ ] Implement `POST /api/orders`.
-- [ ] Coordinate validation, inventory, pricing, shipping, payment, and persistence through `OrderService`.
-- [ ] Create orders and order items in one database transaction.
-- [ ] Decrease inventory only after a successful order.
-- [ ] Roll back order data when payment or database work fails.
-- [ ] Support deterministic success, invalid-payment, declined-payment, unavailable-product, and unavailable-shipping scenarios.
-- [ ] Store only a safe payment reference or last-four placeholder; never store complete card numbers.
-- [ ] Return a safe confirmation with a mock order number.
-- [ ] Implement `GET /api/orders/{order_id}` without exposing payment data.
-- [ ] Update `app/js/checkout.js` to use quote and order endpoints.
-- [ ] Add clear checkout loading, validation, success, unavailable, and error states.
+- [x] Create tables for `orders` and `order_items`.
+- [x] Implement `OrderRepository`.
+- [x] Implement `POST /api/orders/quote`.
+- [x] Validate product, quantity, inventory, price, and eligible shipping options in the backend.
+- [x] Implement `POST /api/orders`.
+- [x] Coordinate validation, inventory, pricing, shipping, payment, and persistence through `OrderService`.
+- [x] Create orders and order items in one database transaction.
+- [x] Decrease inventory only after a successful order.
+- [x] Roll back order data when payment or database work fails.
+- [x] Support deterministic success, invalid-payment, declined-payment, unavailable-product, and unavailable-shipping scenarios.
+- [x] Store only a safe payment reference or last-four placeholder; never store complete card numbers.
+- [x] Return a safe confirmation with a mock order number.
+- [x] Implement `GET /api/orders/{order_id}` without exposing payment data.
+- [x] Update `app/js/checkout.js` to use quote and order endpoints.
+- [x] Add clear checkout loading, validation, success, unavailable, and error states.
 
 **Exit criteria:** Successful checkout creates correct order records, and failure scenarios leave no partial completed order.
 
-## Milestone 7: Add contact-message support
+## Milestone 7: Add contact-message support — complete
 
 **Goal:** Move contact and interest forms to the API and store fictional messages safely.
 
-- [ ] Create the `contact_messages` table.
-- [ ] Implement `ContactMessageRepository`.
-- [ ] Implement `POST /api/contact-messages`.
-- [ ] Validate required fields, formats, and input size limits.
-- [ ] Implement the local `MessageGateway` without sending real email.
-- [ ] Update `app/js/contact.js` to submit through the API.
-- [ ] Add success, validation-error, loading, and API-error states to the contact page.
-- [ ] Store no unnecessary sensitive information in contact records.
+- [x] Create the `contact_messages` table.
+- [x] Implement `ContactMessageRepository`.
+- [x] Implement `POST /api/contact-messages`.
+- [x] Validate required fields, formats, and input size limits.
+- [x] Implement the local `MessageGateway` without sending real email.
+- [x] Update `app/js/contact.js` to submit through the API.
+- [x] Add success, validation-error, loading, and API-error states to the contact page.
+- [x] Store no unnecessary sensitive information in contact records.
 
 **Exit criteria:** Contact submissions are validated, stored locally, confirmed safely, and available through the API.
 

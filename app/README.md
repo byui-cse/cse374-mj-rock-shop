@@ -28,9 +28,8 @@ Run both servers before opening the frontend. The frontend uses port 8080 and th
 
 - Catalog and product-detail data are loaded from the API on port 8000.
 - Catalog search, filtering, sorting, and product-detail rendering use API requests.
-- Checkout is a fictional, browser-only flow.
-- Checkout still uses `js/data.js` until a later migration milestone.
-- Contact and interest submissions are mock records stored in the browser's session storage when available.
+- Checkout uses the API's quote and order endpoints with fictional payment data.
+- Contact and interest submissions are fictional records stored through the local API.
 - No payment, shipping, email, or other external service is contacted.
 - Use fictional information only. Do not enter real personal or payment information.
 
