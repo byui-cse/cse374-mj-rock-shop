@@ -116,27 +116,27 @@ Students will add the automated checks and quality activities themselves as cour
 
 **Exit criteria:** Contact submissions are validated, stored locally, confirmed safely, and available through the API.
 
-## Milestone 8: Student extension handoff
+## Milestone 8: Student extension handoff — complete
 
 **Goal:** Prepare the expanded application as a clean template for student exercises.
 
-- [ ] Document frontend, API, database, seed, reset, and startup commands.
-- [ ] Document the supported Python, browser, and database versions.
-- [ ] Document the fictional data and deterministic scenario triggers.
-- [ ] Document how the browser, API, service, repository, and database layers connect.
-- [ ] Document the remaining student extension points without providing completed course solutions.
-- [ ] Keep real authentication, payment, email, live shipping, customer accounts, and production administration out of scope.
+- [x] Document frontend, API, database, seed, reset, and startup commands.
+- [x] Document the supported Python, browser, and database versions.
+- [x] Document the fictional data and deterministic scenario triggers.
+- [x] Document how the browser, API, service, repository, and database layers connect.
+- [x] Document the remaining student extension points without providing completed course solutions.
+- [x] Keep real authentication, payment, email, live shipping, customer accounts, and production administration out of scope.
 
 **Exit criteria:** A student can install and run the expanded application locally and clearly identify where to add course work.
 
 ## Final application checklist
 
-- [ ] Frontend, API, database, and service boundaries are clear.
-- [ ] Existing catalog behavior and Rock Shop context are preserved.
-- [ ] Product, contact, quote, and order functionality work through HTTP APIs.
-- [ ] Database reset and seed operations are deterministic.
-- [ ] Successful, validation-error, unavailable, declined, and rollback scenarios are reproducible.
-- [ ] No real payment, shipping, email, or other external service is required.
-- [ ] Logs and responses do not expose complete card numbers or unnecessary personal information.
-- [ ] Accessibility and responsive behavior remain part of the application design.
+- [x] Frontend, API, database, and service boundaries are clear.
+- [x] Existing catalog behavior and Rock Shop context are preserved.
+- [x] Product, contact, quote, and order functionality work through HTTP APIs.
+- [x] Database reset and seed operations are deterministic.
+- [x] Successful, validation-error, unavailable, declined, and rollback scenarios are reproducible.
+- [x] No real payment, shipping, email, or other external service is required.
+- [x] Logs and responses do not expose complete card numbers or unnecessary personal information.
+- [x] Accessibility and responsive behavior remain part of the application design.
 

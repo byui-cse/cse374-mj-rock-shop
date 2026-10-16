@@ -1,109 +1,91 @@
-# MJ's Rock Shop
+# CSE 374 MJ Rock Shop
 
-MJ's Rock Shop is a vanilla HTML, CSS, and JavaScript teaching prototype for practicing software testing. It represents a small online rock and mineral shop with product discovery, contact forms, and a simulated checkout process.
+MJ's Rock Shop is a small multi-tier teaching application for the CSE 374 Software Testing course at BYU-Idaho. It gives students a realistic browser, API, service, repository, and database application to extend during the course.
 
-This application is intentionally designed for classroom use. It does not connect to real payment, shipping, email, database, or inventory services.
+All products, customers, payments, shipping, and messages are fictional. The application does not contact real payment, shipping, email, or inventory services.
 
-## Running the application
+## Run the expanded application
 
-No build tools or dependencies are required.
+Requirements:
 
-### Option 1: Open the page directly
+- Python 3.11 or newer
+- A current Chrome, Edge, Firefox, or Safari browser with JavaScript and `fetch` support
+- SQLite 3.35 or newer, provided through Python's standard library
 
-Open `index.html` in a modern web browser.
+Install backend dependencies from the repository root:
 
-### Option 2: Use a local static server
-
-From the `mj-rock-shop` directory, run a simple static server such as:
-
-```text
-python -m http.server
+```bash
+python -m pip install -e ./backend
 ```
 
-Then open the local address shown by the server, usually `http://localhost:8000`.
+Start the API in one terminal:
+
+```bash
+python -m uvicorn app.main:app --reload --app-dir backend
+```
+
+Start the frontend in a second terminal:
+
+```bash
+python -m http.server 8080 --directory app
+```
+
+Open <http://localhost:8080/>. The frontend uses port `8080`; the API uses port `8000`.
+
+The API creates and seeds `backend/data/rock_shop.db` automatically. To reset it to the deterministic sample data:
+
+```bash
+python -m app.database
+```
+
+Run that command from the `backend` directory, or set `ROCK_SHOP_DB_PATH` when using a different local database file.
 
 ## Current features
 
-- Responsive rock shop homepage and shared navigation
-- Coolors-based visual palette
-- Twelve fictional rock and mineral products
-- Local specimen images
-- Featured products
-- Search by ordinary terms, names, colors, descriptions, and tags
-- Filters for color, geological type, mineral status, and raw/polished condition
-- Sorting by featured status, name, and price
-- Product detail pages
-- Explicit unknown product characteristics
-- Conditional safety and physical-handling warnings
-- Mock contact and customer-interest forms
-- Form validation and temporary session-based mock records
-- Multi-step mock checkout
-- USPS and UPS shipping choices
-- Ground and Priority shipping choices when eligible
-- Mock payment success, invalid-input, decline, and unavailable-shipping states
-- Mock order confirmation
+- API-backed catalog search, filtering, sorting, and product details
+- SQLite products, shipping options, orders, order items, and contact messages
+- Multi-step API-backed checkout with quote and order creation
+- Deterministic approved, invalid, declined, unavailable, and validation scenarios
+- Fictional local payment, shipping, and message adapters
+- Contact and customer-interest forms saved through the API
+- Safe mock order confirmations without storing complete card numbers
+- Responsive browser presentation with conditional warnings and unknown-value handling
 
-## Mock checkout test values
+## Fictional checkout values
 
-Use fictional values only. Never enter real personal or payment information.
+Use fictional information only:
 
 | Scenario | Card number |
-|---|---|
+| --- | --- |
 | Successful payment | `4242 4242 4242 4242` |
 | Declined payment | `4000 0000 0000 0002` |
 | Invalid payment format | `1234` |
 
 The remaining checkout fields can use other fictional values that satisfy the required-field and email-format rules.
 
-To test unavailable shipping, select a product whose data contains no eligible shipping services. The current catalog includes the unavailable Layered Sandstone product for related product-state testing.
+## API overview
 
-## Project structure
+| Method | Route | Purpose |
+| --- | --- | --- |
+| `GET` | `/api/health` | Check API and database availability. |
+| `GET` | `/api/products` | Search and filter the catalog. |
+| `GET` | `/api/products/{product_id}` | Retrieve one product. |
+| `POST` | `/api/orders/quote` | Calculate a quote and eligible shipping options. |
+| `POST` | `/api/orders` | Create a completed mock order. |
+| `GET` | `/api/orders/{order_id}` | Retrieve a safe order confirmation. |
+| `POST` | `/api/contact-messages` | Store a fictional message or interest record. |
 
-```text
-mj-rock-shop/
-├── index.html              # Shop, featured products, search, filters, and sorting
-├── product.html            # Product detail page
-├── contact.html            # Contact and customer-interest forms
-├── checkout.html           # Mock checkout flow
-├── css/
-│   └── styles.css          # Shared layout, palette, responsive, and accessibility styles
-├── js/
-│   ├── data.js             # Fictional products and mock checkout values
-│   ├── app.js              # Shared browser helpers
-│   ├── catalog.js          # Catalog and product-detail behavior
-│   ├── contact.js          # Contact form behavior
-│   └── checkout.js         # Checkout and mock payment/shipping behavior
-└── assets/
-    ├── hero-mj-rock-shop.png
-    └── products/            # Local product images
-```
-
-## Testing focus
-
-Students can practice testing:
-
-- Product discovery and navigation
-- Search, filtering, sorting, and no-result states
-- Available and unavailable product behavior
-- Known versus unknown product characteristics
-- Conditional warning messages
-- Required-field and email validation
-- Keyboard navigation and visible focus states
-- Responsive layout behavior
-- Checkout step navigation
-- Shipping eligibility
-- Payment success, invalid input, and decline handling
-- Protection against retaining complete card numbers
+Interactive API documentation is available at <http://127.0.0.1:8000/docs> while the backend is running.
 
 ## Project documentation
 
-- [SPEC.md](SPEC.md) — Version 1 requirements and behavior specification
-- [PLAN.md](PLAN.md) — Phased implementation plan and verification checkpoints
+- [ARCHITECTURE.md](ARCHITECTURE.md) — How the application layers connect
+- [STUDENT_GUIDE.md](STUDENT_GUIDE.md) — Setup, scope, and extension points
+- [TASKS.md](TASKS.md) — Application migration milestones
+- [app/README.md](app/README.md) — Frontend instructions
+- [backend/README.md](backend/README.md) — API and database instructions
 
-## Important prototype limitations
+## Scope and safety
 
-- Product data is hard-coded in `js/data.js`.
-- Contact submissions are stored only temporarily in browser session storage.
-- Payment and shipping results are simulated locally.
-- No card information is sent to a service or stored after payment handling.
-- The application is not production-ready and should not receive real customer data.
+This is a classroom template, not a production shop. Do not add real payment processing, email delivery, live shipping calls, customer accounts, or real personal data without a separately approved design.
+

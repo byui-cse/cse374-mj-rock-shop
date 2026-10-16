@@ -75,7 +75,7 @@ The health response reports the API and SQLite database status. A healthy respon
 
 ## Catalog endpoints
 
-The temporary in-memory catalog is available through:
+The SQLite-backed catalog is available through:
 
 ```text
 GET /api/products
