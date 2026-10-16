@@ -1,2 +1,2 @@
-"""External-service adapters will be added in later milestones."""
+"""Interfaces and local adapters for fictional external services."""
 

@@ -64,18 +64,18 @@ Students will add the automated checks and quality activities themselves as cour
 
 **Exit criteria:** A student can reset and seed the database, start the API, and receive the same catalog data on every run.
 
-## Milestone 5: Add business services and deterministic adapters
+## Milestone 5: Add business services and deterministic adapters — complete
 
 **Goal:** Move authoritative rules out of the browser and route handlers into independently reusable services.
 
-- [ ] Implement `CatalogService` for search, filtering, sorting, and availability rules.
-- [ ] Implement `PricingService` for item totals and order totals.
-- [ ] Implement `ShippingService` for carrier/service eligibility and estimated delivery text.
-- [ ] Define interfaces for `PaymentGateway`, `ShippingGateway`, and `MessageGateway`.
-- [ ] Implement deterministic local adapters for approved, invalid, declined, eligible, unavailable, and message-recording outcomes.
-- [ ] Implement `ScenarioService` or an equivalent mechanism for repeatable classroom scenarios.
-- [ ] Keep service functions independent from HTTP, browser code, and database connection details.
-- [ ] Add fixtures and sample data structures that students can use when creating their own course work.
+- [x] Implement `CatalogService` for search, filtering, sorting, and availability rules.
+- [x] Implement `PricingService` for item totals and order totals.
+- [x] Implement `ShippingService` for carrier/service eligibility and estimated delivery text.
+- [x] Define interfaces for `PaymentGateway`, `ShippingGateway`, and `MessageGateway`.
+- [x] Implement deterministic local adapters for approved, invalid, declined, eligible, unavailable, and message-recording outcomes.
+- [x] Implement `ScenarioService` for repeatable classroom scenarios.
+- [x] Keep service functions independent from HTTP, browser code, and database connection details.
+- [x] Add fixtures and sample data structures that students can use when creating their own course work.
 
 **Exit criteria:** Core business rules are isolated from HTTP and browser code, and deterministic local adapters are available.
 

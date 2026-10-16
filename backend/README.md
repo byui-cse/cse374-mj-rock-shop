@@ -54,6 +54,17 @@ python -m app.database
 
 The `ROCK_SHOP_DB_PATH` environment variable can point to a different database file for local experiments or tests.
 
+## Service and adapter layers
+
+Business rules are separated from the API routes in `app/services/`:
+
+- `CatalogService` handles search, filtering, sorting, and availability rules.
+- `PricingService` calculates item and order totals.
+- `ShippingService` determines eligible fictional shipping options.
+- `ScenarioService` maps fictional inputs to repeatable outcomes.
+
+Interfaces for payment, shipping, and message services are in `app/adapters/protocols.py`. The local implementations in `app/adapters/local.py` do not contact real services or retain complete card numbers.
+
 ## Health check
 
 ```text

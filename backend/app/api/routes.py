@@ -8,10 +8,11 @@ from pydantic import BaseModel
 from app.database import database_is_healthy
 from app.models.catalog import CatalogProduct
 from app.repositories.products import product_repository
-from app.services.catalog import list_products
+from app.services.catalog import CatalogService
 
 
 router = APIRouter(prefix="/api")
+catalog_service = CatalogService()
 
 
 class DatabaseHealth(BaseModel):
@@ -46,7 +47,7 @@ def products(
 ) -> list[CatalogProduct]:
     """Return products matching the catalog query."""
     with product_repository() as repository:
-        return list_products(
+        return catalog_service.list_products(
             repository.list_all(),
             search=search,
             color=color,

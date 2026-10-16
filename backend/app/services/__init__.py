@@ -1,2 +1,2 @@
-"""Business services will be added in later milestones."""
+"""Business rules independent of HTTP and persistence."""
 
