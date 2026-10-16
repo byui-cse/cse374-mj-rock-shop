@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Contact MJ's Rock Shop.">
+  <title>Contact | MJ's Rock Shop</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="index.html">MJ's Rock Shop</a>
+      <nav class="site-nav" aria-label="Primary navigation"><ul><li><a href="index.html">Shop</a></li><li><a href="contact.html" aria-current="page">Contact</a></li><li><a href="checkout.html">Checkout</a></li></ul></nav>
+    </div>
+  </header>
+  <main id="main-content" class="main-content">
+    <p class="eyebrow">Stay in touch</p>
+    <h1>Contact MJ</h1>
+    <p class="lead">Ask a question about a specimen or share what brings you to the shop. These forms are part of a classroom prototype and do not send real messages.</p>
+
+    <section class="panel" aria-labelledby="message-title">
+      <h2 id="message-title">Send a message to MJ</h2>
+      <p class="required-note">Fields marked <span aria-hidden="true">*</span> are required.</p>
+      <div id="message-status" class="form-status" role="status" aria-live="polite" hidden></div>
+      <form id="contact-form" novalidate>
+        <div class="form-grid">
+          <div class="field-group">
+            <label for="message-name">Name <span aria-hidden="true">*</span></label>
+            <input id="message-name" name="name" type="text" autocomplete="name" required aria-describedby="message-name-error">
+            <p id="message-name-error" class="field-error" hidden></p>
+          </div>
+          <div class="field-group">
+            <label for="message-email">Email <span aria-hidden="true">*</span></label>
+            <input id="message-email" name="email" type="email" autocomplete="email" required aria-describedby="message-email-error">
+            <p id="message-email-error" class="field-error" hidden></p>
+          </div>
+          <div class="field-group full-width">
+            <label for="message-subject">Subject <span class="required-note">(optional)</span></label>
+            <input id="message-subject" name="subject" type="text">
+          </div>
+          <div class="field-group full-width">
+            <label for="message-body">Message <span aria-hidden="true">*</span></label>
+            <textarea id="message-body" name="message" required aria-describedby="message-body-error"></textarea>
+            <p id="message-body-error" class="field-error" hidden></p>
+          </div>
+        </div>
+        <div class="button-row">
+          <button type="submit">Send mock message</button>
+          <button class="button-secondary" type="reset">Clear form</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="panel" aria-labelledby="interest-title">
+      <h2 id="interest-title">Share your rock interests</h2>
+      <p>MJ uses this information to learn which customers and topics the shop can serve.</p>
+      <div id="interest-status" class="form-status" role="status" aria-live="polite" hidden></div>
+      <form id="interest-form" novalidate>
+        <div class="form-grid">
+          <div class="field-group">
+            <label for="interest-name">Name <span aria-hidden="true">*</span></label>
+            <input id="interest-name" name="name" type="text" autocomplete="name" required aria-describedby="interest-name-error">
+            <p id="interest-name-error" class="field-error" hidden></p>
+          </div>
+          <div class="field-group">
+            <label for="interest-email">Email <span aria-hidden="true">*</span></label>
+            <input id="interest-email" name="email" type="email" autocomplete="email" required aria-describedby="interest-email-error">
+            <p id="interest-email-error" class="field-error" hidden></p>
+          </div>
+          <div class="field-group full-width">
+            <label for="interest-topic">What are you interested in? <span aria-hidden="true">*</span></label>
+            <textarea id="interest-topic" name="interest" required aria-describedby="interest-topic-error" placeholder="For example: collecting colorful stones or school projects"></textarea>
+            <p id="interest-topic-error" class="field-error" hidden></p>
+          </div>
+        </div>
+        <div class="button-row">
+          <button type="submit">Save mock interest</button>
+          <button class="button-secondary" type="reset">Clear form</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="panel" aria-labelledby="privacy-title">
+      <h2 id="privacy-title">Prototype note</h2>
+      <p>Do not enter real personal information. A successful submission is stored only as a temporary mock record in this browser session and is not sent to MJ.</p>
+      <a class="button button-secondary" href="index.html">Return to the shop</a>
+    </section>
+  </main>
+  <footer class="site-footer"><div class="site-footer-inner"><span>&copy; 2026 MJ's Rock Shop teaching prototype</span><a href="index.html">Back to shop</a></div></footer>
+  <script src="js/contact.js"></script>
+</body>
+</html>

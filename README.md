@@ -1,44 +1,109 @@
-# CSE 374 MJ Rock Shop
+# MJ's Rock Shop
 
-This repository contains the **MJ Rock Shop** application used in the CSE 374 Software Testing course at BYU-Idaho.
+MJ's Rock Shop is a vanilla HTML, CSS, and JavaScript teaching prototype for practicing software testing. It represents a small online rock and mineral shop with product discovery, contact forms, and a simulated checkout process.
 
-The application grows throughout the course so students can practice software testing and automation against a realistic project. Each branch represents a different stage of the application and course activities.
+This application is intentionally designed for classroom use. It does not connect to real payment, shipping, email, database, or inventory services.
 
-## Branches
+## Running the application
 
-### `main`
+No build tools or dependencies are required.
 
-The `main` branch is the starting point for the repository. It contains this overview README and provides links to the course application's versioned branches.
+### Option 1: Open the page directly
 
-### `1.0`
+Open `index.html` in a modern web browser.
 
-Branch `1.0` contains the initial prototype application used during weeks 1–6 of the course. Its README explains the prototype, setup instructions, and testing work for that part of the course.
+### Option 2: Use a local static server
 
-### `2.0`
+From the `mj-rock-shop` directory, run a simple static server such as:
 
-Branch `2.0` contains the expanded application used during weeks 7–14. It includes multiple application tiers that allow students to practice automation concepts in a local test environment.
-
-Students should install this version on their laptops and use the branch's README for the required setup, usage, and testing instructions.
-
-## Working with a course branch
-
-Clone the repository, then check out the branch for the part of the course you are studying:
-
-```bash
-git clone <repository-url>
-cd cse374-mj-rock-shop
-git checkout 1.0
+```text
+python -m http.server
 ```
 
-Replace `1.0` with `2.0` when working with the expanded application. Always read the README on the selected branch because its instructions match that version of the application.
+Then open the local address shown by the server, usually `http://localhost:8000`.
 
-## Course context
+## Current features
 
-This project is designed for learning. Students use it to develop skills in:
+- Responsive rock shop homepage and shared navigation
+- Coolors-based visual palette
+- Twelve fictional rock and mineral products
+- Local specimen images
+- Featured products
+- Search by ordinary terms, names, colors, descriptions, and tags
+- Filters for color, geological type, mineral status, and raw/polished condition
+- Sorting by featured status, name, and price
+- Product detail pages
+- Explicit unknown product characteristics
+- Conditional safety and physical-handling warnings
+- Mock contact and customer-interest forms
+- Form validation and temporary session-based mock records
+- Multi-step mock checkout
+- USPS and UPS shipping choices
+- Ground and Priority shipping choices when eligible
+- Mock payment success, invalid-input, decline, and unavailable-shipping states
+- Mock order confirmation
 
-- software testing fundamentals;
-- writing and running automated tests;
-- working with different application tiers;
-- setting up a local test environment; and
-- communicating test results and defects clearly.
+## Mock checkout test values
 
+Use fictional values only. Never enter real personal or payment information.
+
+| Scenario | Card number |
+|---|---|
+| Successful payment | `4242 4242 4242 4242` |
+| Declined payment | `4000 0000 0000 0002` |
+| Invalid payment format | `1234` |
+
+The remaining checkout fields can use other fictional values that satisfy the required-field and email-format rules.
+
+To test unavailable shipping, select a product whose data contains no eligible shipping services. The current catalog includes the unavailable Layered Sandstone product for related product-state testing.
+
+## Project structure
+
+```text
+mj-rock-shop/
+├── index.html              # Shop, featured products, search, filters, and sorting
+├── product.html            # Product detail page
+├── contact.html            # Contact and customer-interest forms
+├── checkout.html           # Mock checkout flow
+├── css/
+│   └── styles.css          # Shared layout, palette, responsive, and accessibility styles
+├── js/
+│   ├── data.js             # Fictional products and mock checkout values
+│   ├── app.js              # Shared browser helpers
+│   ├── catalog.js          # Catalog and product-detail behavior
+│   ├── contact.js          # Contact form behavior
+│   └── checkout.js         # Checkout and mock payment/shipping behavior
+└── assets/
+    ├── hero-mj-rock-shop.png
+    └── products/            # Local product images
+```
+
+## Testing focus
+
+Students can practice testing:
+
+- Product discovery and navigation
+- Search, filtering, sorting, and no-result states
+- Available and unavailable product behavior
+- Known versus unknown product characteristics
+- Conditional warning messages
+- Required-field and email validation
+- Keyboard navigation and visible focus states
+- Responsive layout behavior
+- Checkout step navigation
+- Shipping eligibility
+- Payment success, invalid input, and decline handling
+- Protection against retaining complete card numbers
+
+## Project documentation
+
+- [SPEC.md](SPEC.md) — Version 1 requirements and behavior specification
+- [PLAN.md](PLAN.md) — Phased implementation plan and verification checkpoints
+
+## Important prototype limitations
+
+- Product data is hard-coded in `js/data.js`.
+- Contact submissions are stored only temporarily in browser session storage.
+- Payment and shipping results are simulated locally.
+- No card information is sent to a service or stored after payment handling.
+- The application is not production-ready and should not receive real customer data.

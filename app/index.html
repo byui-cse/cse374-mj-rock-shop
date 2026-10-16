@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="MJ's Rock Shop teaching prototype.">
+  <title>MJ's Rock Shop | Discover Something Solid</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="index.html">MJ's Rock Shop</a>
+      <nav class="site-nav" aria-label="Primary navigation">
+        <ul>
+          <li><a href="index.html" aria-current="page">Shop</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="checkout.html">Checkout</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content" class="main-content">
+    <section class="hero" aria-labelledby="page-title">
+      <div>
+        <p class="eyebrow">A teaching prototype for curious collectors</p>
+        <h1 id="page-title">Find a little wonder.</h1>
+        <p class="lead">Explore rocks and mineral specimens for gifts, collections, projects, and everyday curiosity.</p>
+        <div class="button-row">
+          <a class="button" href="#catalog-preview">Browse the shop</a>
+          <a class="button button-secondary" href="contact.html">Ask MJ a question</a>
+        </div>
+      </div>
+      <img class="hero-art" src="assets/hero-mj-rock-shop.jpg" alt="A collection of colorful rocks and minerals from MJ's Rock Shop">
+    </section>
+
+    <section id="catalog" class="panel" aria-labelledby="catalog-title">
+      <div class="catalog-heading">
+        <div>
+          <p class="eyebrow">Explore the collection</p>
+          <h2 id="catalog-title">Shop rocks and minerals</h2>
+        </div>
+        <p id="result-count" aria-live="polite"></p>
+      </div>
+
+      <form id="catalog-controls" class="catalog-toolbar" role="search">
+        <div class="field-group">
+          <label for="search">Search by name, color, or everyday words</label>
+          <input id="search" name="search" type="search" placeholder="Try pink or crystal">
+        </div>
+        <div class="field-group">
+          <label for="color">Color</label>
+          <select id="color" name="color"><option value="">All colors</option></select>
+        </div>
+        <div class="field-group">
+          <label for="geological-type">Geological type</label>
+          <select id="geological-type" name="geologicalType"><option value="">All types</option><option value="igneous">Igneous</option><option value="sedimentary">Sedimentary</option><option value="metamorphic">Metamorphic</option></select>
+        </div>
+        <div class="field-group">
+          <label for="mineral-status">Mineral status</label>
+          <select id="mineral-status" name="mineralStatus"><option value="">All statuses</option><option value="mineral">Mineral</option><option value="rock">Rock / not identified as mineral</option></select>
+        </div>
+        <div class="field-group">
+          <label for="condition">Condition</label>
+          <select id="condition" name="condition"><option value="">All conditions</option><option value="raw">Raw</option><option value="polished">Polished</option></select>
+        </div>
+        <div class="field-group">
+          <label for="sort">Sort by</label>
+          <select id="sort" name="sort"><option value="featured">Featured</option><option value="name-asc">Name: A to Z</option><option value="price-asc">Price: low to high</option><option value="price-desc">Price: high to low</option></select>
+        </div>
+        <div class="filter-actions">
+          <button type="submit">Apply filters</button>
+          <button id="clear-filters" class="button-secondary" type="button">Clear filters</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="panel" aria-labelledby="featured-title">
+      <div class="catalog-heading"><h2 id="featured-title">Popular picks</h2></div>
+      <div id="featured-products" class="catalog-grid"></div>
+    </section>
+
+    <section class="panel" aria-labelledby="all-products-title">
+      <div class="catalog-heading"><h2 id="all-products-title">All available products</h2></div>
+      <div id="catalog-results" class="catalog-grid"></div>
+      <div id="catalog-empty" class="empty-state" hidden></div>
+    </section>
+  </main>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/catalog.js"></script>
+
+  <footer class="site-footer">
+    <div class="site-footer-inner">
+      <span>&copy; 2026 MJ's Rock Shop teaching prototype</span>
+      <a href="contact.html">Contact MJ</a>
+    </div>
+  </footer>
+</body>
+</html>
