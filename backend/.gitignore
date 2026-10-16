@@ -1,0 +1,9 @@
+# Backend-specific runtime files are also covered by the repository-level
+# .gitignore. Keep these rules here so the backend remains portable when used
+# as a standalone project.
+__pycache__/
+*.py[cod]
+.pytest_cache/
+*.egg-info/
+data/*.db
+data/*.db-*
