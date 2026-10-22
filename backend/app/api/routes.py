@@ -2,9 +2,10 @@
 
 from typing import Literal
 
-from fastapi import APIRouter, HTTPException, Query
+from fastapi import APIRouter, Depends, HTTPException, Query
 from pydantic import BaseModel
 
+from app.authentication import AuthenticatedPrincipal, require_staff_principal
 from app.database import database_is_healthy
 from app.models.catalog import CatalogProduct
 from app.models.contact import ContactMessageRequest, ContactMessageResponse
@@ -117,8 +118,19 @@ def create_order(request: OrderCreateRequest) -> OrderConfirmation:
             raise _order_error(error) from error
 
 
-@router.get("/orders/{order_id}", response_model=OrderConfirmation)
-def get_order(order_id: int) -> OrderConfirmation:
+@router.get(
+    "/orders/{order_id}",
+    response_model=OrderConfirmation,
+    responses={
+        401: {"description": "A valid bearer token is required."},
+        403: {"description": "The token does not have staff authorization."},
+        404: {"description": "The requested order was not found."},
+    },
+)
+def get_order(
+    order_id: int,
+    _: AuthenticatedPrincipal = Depends(require_staff_principal),
+) -> OrderConfirmation:
     """Return a safe order confirmation without customer or payment details."""
     with product_repository() as repository:
         order = OrderService(repository.connection).get_order(order_id)

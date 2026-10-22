@@ -40,7 +40,25 @@ Students can extend the template by:
 
 Keep business rules out of browser code and route handlers when they affect price, inventory, shipping, payment, or order creation.
 
+## Classroom bearer tokens
+
+The API includes a small authorization example for the protected order-retrieval endpoint:
+
+```text
+GET /api/orders/{order_id}
+Authorization: Bearer staff-demo-token
+```
+
+Use only the fictional values supplied by the project:
+
+- `student-demo-token` identifies the student role but receives `403 Forbidden` for staff-only order retrieval.
+- `staff-demo-token` identifies the staff role and can retrieve an existing order.
+
+Requests without a token, or with a malformed or unknown token, receive `401 Unauthorized`. These values demonstrate HTTP authentication and authorization. They are not real secrets, are not stored in the database, and must not be replaced with real passwords or tokens.
+
+The public catalog, quote, order-creation, and contact endpoints do not require a token. The Week 9 reading is not being changed as part of this application update.
+
 ## Deliberate limits
 
-Use fictional names, addresses, email addresses, and payment values. Do not connect the application to real payment, email, shipping, authentication, or customer-account services. The local SQLite database is for classroom use and can be reset at any time.
+Use fictional names, addresses, email addresses, payment values, and bearer tokens. Do not connect the application to real payment, email, shipping, authentication, or customer-account services. The local SQLite database is for classroom use and can be reset at any time.
 

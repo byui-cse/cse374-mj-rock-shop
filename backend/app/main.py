@@ -3,6 +3,7 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.openapi.utils import get_openapi
 
 from app.api.errors import http_exception_handler, not_found_handler, validation_exception_handler
 from app.api.routes import router
@@ -28,4 +29,34 @@ app.add_exception_handler(HTTPException, http_exception_handler)
 app.add_exception_handler(RequestValidationError, validation_exception_handler)
 app.add_exception_handler(404, not_found_handler)
 app.include_router(router)
+
+
+def custom_openapi():
+    """Add the classroom bearer scheme and protected-route metadata."""
+
+    if app.openapi_schema:
+        return app.openapi_schema
+
+    app.openapi_schema = get_openapi(
+        title=app.title,
+        version=app.version,
+        description=app.description,
+        routes=app.routes,
+    )
+    components = app.openapi_schema.setdefault("components", {})
+    security_schemes = components.setdefault("securitySchemes", {})
+    security_schemes["bearerAuth"] = {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "Use a fictional classroom token, such as staff-demo-token.",
+    }
+
+    order_route = app.openapi_schema.get("paths", {}).get("/api/orders/{order_id}", {}).get("get")
+    if order_route is not None:
+        order_route["security"] = [{"bearerAuth": []}]
+
+    return app.openapi_schema
+
+
+app.openapi = custom_openapi
 

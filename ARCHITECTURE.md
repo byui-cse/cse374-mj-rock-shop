@@ -11,6 +11,7 @@ Browser UI :8080
         v
 FastAPI API :8000
   routes.py
+  authentication.py
         |
         v
 Business services
@@ -62,9 +63,18 @@ Repositories                  Local adapters
 3. `LocalMessageGateway` records a fictional adapter receipt without sending email.
 4. `ContactMessageRepository` stores the record in SQLite.
 
+### Protected order retrieval
+
+1. A client requests `GET /api/orders/{order_id}` with an `Authorization: Bearer <token>` header.
+2. `authentication.py` parses the classroom token and identifies its role.
+3. The staff authorization dependency rejects missing or invalid credentials with `401`, and valid non-staff credentials with `403`.
+4. Only an authorized request reaches the order lookup in `routes.py` and `OrderService`.
+5. The API returns a safe order confirmation without complete card data.
+
 ## Data ownership
 
 - Browser code owns presentation state only.
+- Authentication dependencies own classroom token parsing and role checks before protected route work begins.
 - Services own business rules.
 - Repositories own SQL and database mapping.
 - Adapters own interactions with fictional external-service boundaries.

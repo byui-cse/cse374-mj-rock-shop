@@ -54,6 +54,43 @@ python -m app.database
 
 The `ROCK_SHOP_DB_PATH` environment variable can point to a different database file for local experiments or tests.
 
+## Classroom bearer-token authorization
+
+The application uses a simple, fictional bearer-token scheme for classroom exercises. It is not production authentication. Tokens are hard-coded in the application, are not stored in SQLite, and must not be replaced with real credentials.
+
+| Token | Role | Purpose |
+| --- | --- | --- |
+| `student-demo-token` | student | Valid token, but not authorized to retrieve protected orders. |
+| `staff-demo-token` | staff | Authorized to retrieve protected orders. |
+
+The protected endpoint is:
+
+```text
+GET /api/orders/{order_id}
+```
+
+Send the token in the standard header format:
+
+```text
+Authorization: Bearer staff-demo-token
+```
+
+For example:
+
+```bash
+curl -H "Authorization: Bearer staff-demo-token" \
+  http://127.0.0.1:8000/api/orders/1
+```
+
+Expected access-control responses:
+
+- Missing header: `401` with code `authentication_required`.
+- Malformed or unknown token: `401` with code `invalid_authentication`.
+- Valid student token: `403` with code `forbidden`.
+- Valid staff token and unknown order: `404` with code `order_not_found`.
+
+The catalog, quote, order-creation, and contact endpoints remain public. Open `/docs` while the API is running to see the `bearerAuth` security scheme and the protected order endpoint.
+
 ## Service and adapter layers
 
 Business rules are separated from the API routes in `app/services/`:

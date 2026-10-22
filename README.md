@@ -72,10 +72,30 @@ The remaining checkout fields can use other fictional values that satisfy the re
 | `GET` | `/api/products/{product_id}` | Retrieve one product. |
 | `POST` | `/api/orders/quote` | Calculate a quote and eligible shipping options. |
 | `POST` | `/api/orders` | Create a completed mock order. |
-| `GET` | `/api/orders/{order_id}` | Retrieve a safe order confirmation. |
+| `GET` | `/api/orders/{order_id}` | Retrieve a safe order confirmation. Requires the staff bearer token. |
 | `POST` | `/api/contact-messages` | Store a fictional message or interest record. |
 
 Interactive API documentation is available at <http://127.0.0.1:8000/docs> while the backend is running.
+
+## Classroom bearer-token authorization
+
+Order retrieval is the one protected endpoint in the current application:
+
+```text
+GET /api/orders/{order_id}
+Authorization: Bearer staff-demo-token
+```
+
+Use these fictional demonstration tokens:
+
+| Token | Role | Result on protected order retrieval |
+| --- | --- | --- |
+| `student-demo-token` | student | `403 Forbidden` because the student role is not staff-authorized. |
+| `staff-demo-token` | staff | Can retrieve an existing order. |
+
+Missing, malformed, or unknown bearer tokens receive `401 Unauthorized`. These tokens are hard-coded classroom examples, not real credentials. They are not suitable for production use and are not stored in SQLite.
+
+The interactive `/docs` page describes the bearer scheme and protected endpoint. The Week 9 reading is unchanged; this project documentation explains the application-specific implementation.
 
 ## Project documentation
 
@@ -84,6 +104,7 @@ Interactive API documentation is available at <http://127.0.0.1:8000/docs> while
 - [TASKS.md](TASKS.md) — Application migration milestones
 - [app/README.md](app/README.md) — Frontend instructions
 - [backend/README.md](backend/README.md) — API and database instructions
+- [BEARER-TOKEN-IMPLEMENTATION-PLAN.md](BEARER-TOKEN-IMPLEMENTATION-PLAN.md) — Bearer-token implementation milestones
 
 ## Scope and safety
 
