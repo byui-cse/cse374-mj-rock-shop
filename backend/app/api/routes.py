@@ -1,8 +1,9 @@
 """Versioned API routes for the current application surface."""
 
+import asyncio
 from typing import Literal
 
-from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi import APIRouter, Depends, HTTPException, Query, Response
 from pydantic import BaseModel
 
 from app.authentication import AuthenticatedPrincipal, require_staff_principal
@@ -14,6 +15,7 @@ from app.repositories.products import product_repository
 from app.services.catalog import CatalogService
 from app.services.contact import ContactService, ContactServiceError
 from app.services.orders import OrderService, OrderServiceError
+from app.quote_delay import quote_delay_simulator
 
 
 router = APIRouter(prefix="/api")
@@ -91,14 +93,26 @@ def _order_error(error: OrderServiceError) -> HTTPException:
     )
 
 
-@router.post("/orders/quote", response_model=OrderQuoteResponse)
-def order_quote(request: OrderQuoteRequest) -> OrderQuoteResponse:
-    """Calculate an order quote and return eligible shipping options."""
+@router.post(
+    "/orders/quote",
+    response_model=OrderQuoteResponse,
+    responses={204: {"description": "The simulated shipping dependency exceeded its latency cutoff."}},
+)
+async def order_quote(request: OrderQuoteRequest) -> OrderQuoteResponse | Response:
+    """Calculate an order quote, with optional local simulated dependency latency."""
+    if await quote_delay_simulator.wait_for_quote():
+        return Response(status_code=204)
+
+    try:
+        return await asyncio.to_thread(_calculate_order_quote, request)
+    except OrderServiceError as error:
+        raise _order_error(error) from error
+
+
+def _calculate_order_quote(request: OrderQuoteRequest) -> OrderQuoteResponse:
+    """Run synchronous SQLite and quote work outside the async event loop."""
     with product_repository() as repository:
-        try:
-            return OrderService(repository.connection).quote(request.product_id, request.quantity)
-        except OrderServiceError as error:
-            raise _order_error(error) from error
+        return OrderService(repository.connection).quote(request.product_id, request.quantity)
 
 
 @router.post("/orders", response_model=OrderConfirmation, status_code=201)

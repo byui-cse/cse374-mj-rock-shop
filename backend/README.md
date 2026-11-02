@@ -133,6 +133,21 @@ GET /api/orders/{order_id}
 
 Orders are stored with item snapshots and safe mock payment references. Complete card numbers are used only for the request and are never stored.
 
+### Local quote latency exercise
+
+The quote endpoint simulates a slow shipping dependency for the Week 11 performance assignment. The slowdown is enabled by default and affects only `POST /api/orders/quote`.
+
+| Hardcoded constant in `app/quote_delay.py` | Value | Meaning |
+| --- | --- | --- |
+| `QUOTE_DELAY_ENABLED` | `true` | Turns the simulation on. |
+| `QUOTE_DELAY_MIN_MS` | `100` | Minimum randomly selected delay in milliseconds. |
+| `QUOTE_DELAY_MAX_MS` | `2000` | Maximum randomly selected delay in milliseconds. |
+| `QUOTE_DELAY_CUTOFF_MS` | `750` | Maximum wait before a simulated timeout response. |
+
+To change these values or turn the slowdown off, edit the constants in `app/quote_delay.py` and restart the API. Delay values must be from `0` through `30000` milliseconds, and the minimum must not exceed the maximum. If a selected delay is at or below the cutoff, the endpoint waits and returns the usual quote. If it is above the cutoff, the endpoint waits until the cutoff and returns `204 No Content` with an empty body. That response is an injected timeout outcome; it does not contain or confirm a quote. Existing request validation still runs before the delay.
+
+Start the API with the usual command from the `backend` directory. The slowdown is active automatically. Stop the server with `Ctrl+C` when the run is complete. This setting is for the local classroom exercise; do not deploy the application with the slowdown enabled. The simulated timings do not describe a real carrier or establish production capacity.
+
 ## Contact endpoint
 
 The contact and interest forms use:
@@ -143,7 +158,7 @@ POST /api/contact-messages
 
 Messages are validated and stored in SQLite. The local message adapter records the submission without sending email.
 
-No automated tests are included in this template. Students add their own checks as part of the course exercises.
+Students create their own backend tests as part of the course exercises. After adding tests and installing the optional test dependencies, run them from the `backend` directory with `python -m pytest`.
 
 ## API error format
 
